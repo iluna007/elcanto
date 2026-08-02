@@ -1,121 +1,192 @@
-/* ── Map intro overlay (same page as map) ── */
+/* ── Map intro overlay ── */
 
 .map-intro {
+  --intro-exit-duration: 2.4s;
   position: fixed;
   inset: 0;
   z-index: 10000;
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: none;
+  padding:
+    max(1rem, env(safe-area-inset-top))
+    max(1rem, env(safe-area-inset-right))
+    max(1rem, env(safe-area-inset-bottom))
+    max(1rem, env(safe-area-inset-left));
+}
+
+.map-intro--enter,
+.map-intro--ready {
   pointer-events: all;
+}
+
+.map-intro--filling {
+  pointer-events: none;
 }
 
 .map-intro__backdrop {
   position: absolute;
   inset: 0;
+  backdrop-filter: blur(0);
+  -webkit-backdrop-filter: blur(0);
+}
+
+.map-intro__backdrop-veil {
+  position: absolute;
+  inset: 0;
   background: #000;
   opacity: 1;
-  transition: opacity 2.6s ease;
+}
+
+.map-intro--filling .map-intro__backdrop {
+  animation: map-intro-backdrop-reveal var(--intro-exit-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.map-intro--filling .map-intro__backdrop-veil {
+  animation: map-intro-veil-out var(--intro-exit-duration) cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes map-intro-veil-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes map-intro-backdrop-reveal {
+  from {
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+  }
+  to {
+    backdrop-filter: blur(0);
+    -webkit-backdrop-filter: blur(0);
+  }
 }
 
 .map-intro__logo-wrap {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   transform: scale(1);
   opacity: 1;
-  transition:
-    opacity 2.2s ease,
-    transform 2.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.map-intro__brand-row {
+.map-intro__tap-target {
+  margin: 0;
+  padding: 1rem 1.25rem 1.15rem;
+  border: none;
+  background: none;
+  cursor: default;
+  font: inherit;
+  color: inherit;
+  border-radius: 12px;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: clamp(1rem, 3vw, 1.75rem);
+  gap: 1rem;
+  min-width: min(100%, 280px);
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 
-.map-intro__brand-svg {
-  width: clamp(210px, 44vw, 360px);
-  height: auto;
-  overflow: visible;
-  flex-shrink: 0;
+.map-intro--ready .map-intro__tap-target {
+  cursor: pointer;
+  animation: map-intro-ready-breathe 3.2s ease-in-out infinite;
 }
 
-.map-intro__brand-text {
-  fill: transparent;
-  stroke: #e8f5e9;
-  stroke-width: 0.7;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-  paint-order: stroke fill;
+.map-intro--ready .map-intro__tap-target:hover,
+.map-intro--ready .map-intro__tap-target:focus-visible {
+  animation: none;
+  transform: scale(1.035);
+}
+
+.map-intro--ready .map-intro__tap-target:hover .map-intro__hint,
+.map-intro--ready .map-intro__tap-target:focus-visible .map-intro__hint {
+  color: rgba(232, 245, 233, 0.58);
+}
+
+.map-intro--enter .map-intro__tap-target {
+  animation: map-intro-logo-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.map-intro--ready .map-intro__tap-target:focus-visible {
+  outline: 2px solid rgba(232, 245, 233, 0.5);
+  outline-offset: 6px;
+}
+
+@keyframes map-intro-ready-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.018);
+  }
+}
+
+.map-intro__hint {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 233, 0.38);
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+  pointer-events: none;
+  user-select: none;
+}
+
+.map-intro__hint.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  animation: map-intro-hint-soft 2.8s ease-in-out infinite;
+}
+
+@keyframes map-intro-hint-soft {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.75;
+  }
 }
 
 .map-intro__logo {
-  width: clamp(72px, 16vw, 128px);
+  width: clamp(120px, 24vw, 220px);
   height: auto;
-  flex-shrink: 0;
-  filter: drop-shadow(0 12px 40px rgba(147, 155, 80, 0.35));
+  display: block;
+  filter: drop-shadow(0 16px 48px rgba(147, 155, 80, 0.4));
 }
 
 .map-intro__path {
-  fill: transparent;
-  stroke: #b8c179;
-  stroke-width: 3;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.map-intro--enter .map-intro__logo-wrap {
-  animation: map-intro-logo-in 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-}
-
-.map-intro--drawing .map-intro__path {
-  animation: map-intro-draw 3.2s cubic-bezier(0.45, 0, 0.25, 1) forwards;
-}
-
-.map-intro--drawing .map-intro__brand-text {
-  animation: map-intro-draw 2.8s cubic-bezier(0.45, 0, 0.25, 1) forwards;
-}
-
-.map-intro--filling .map-intro__path {
-  animation: none;
-  stroke-dashoffset: 0;
   fill: #939b50;
-  stroke: #939b50;
-  stroke-width: 0;
-  transition:
-    fill 0.9s ease,
-    stroke-width 0.5s ease;
 }
 
-.map-intro--filling .map-intro__brand-text {
-  animation: none;
-  stroke-dashoffset: 0;
-  fill: #e8f5e9;
-  stroke: #e8f5e9;
-  stroke-width: 0;
-  transition:
-    fill 0.9s ease,
-    stroke-width 0.5s ease;
-}
-
-.map-intro--exit {
-  pointer-events: none;
-}
-
-.map-intro--exit .map-intro__backdrop {
+.map-intro--filling .map-intro__logo-wrap {
   opacity: 0;
-}
-
-.map-intro--exit .map-intro__logo-wrap {
-  opacity: 0;
-  transform: scale(0.94);
+  transform: scale(0.98);
+  transition:
+    opacity calc(var(--intro-exit-duration) * 0.75) ease,
+    transform calc(var(--intro-exit-duration) * 0.75) cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @keyframes map-intro-logo-in {
   from {
     opacity: 0;
-    transform: scale(0.82);
+    transform: scale(0.9);
   }
   to {
     opacity: 1;
@@ -123,92 +194,55 @@
   }
 }
 
-@keyframes map-intro-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-
-/* Map page — hidden until intro reveals it */
-.map-page .map-view {
-  opacity: 0;
-  transition: opacity 3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.map-page.is-map-visible .map-view {
-  opacity: 1;
-}
-
-.map-page .map-sidebar {
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition:
-    opacity 1s ease,
-    transform 1s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.map-page.is-ui-visible .map-sidebar {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-  transition-delay: 0.2s;
-}
-
-/* Hide navbar + controls while intro overlay is up */
-html.site-intro-active .navbar,
-body.map-intro-active .navbar {
+html.site-intro-active:not(.site-intro-ui-ready) .navbar,
+body.map-intro-active:not(.map-intro-ui-ready) .navbar {
   opacity: 0;
   visibility: hidden;
   pointer-events: none;
 }
 
-body.map-intro-ui-visible .navbar {
+body.map-intro-ui-ready .navbar {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
-  transition: opacity 1s ease;
-}
-
-body.map-intro-active .map-view .mapboxgl-ctrl-top-right {
-  opacity: 0;
-  pointer-events: none;
-}
-
-body.map-intro-ui-visible .map-view .mapboxgl-ctrl-top-right {
-  opacity: 1;
-  pointer-events: auto;
-  transition: opacity 0.9s ease 0.25s;
 }
 
 @media (max-width: 520px) {
-  .map-intro__brand-row {
-    flex-direction: column;
-    text-align: center;
-    gap: 1.25rem;
-  }
-
   .map-intro__logo {
-    width: clamp(88px, 28vw, 120px);
+    width: clamp(100px, 32vw, 160px);
   }
 
-  .map-intro__brand-svg {
-    width: clamp(180px, 58vw, 260px);
+  .map-intro__tap-target {
+    padding: 1.15rem 1.5rem 1.25rem;
+  }
+}
+
+@media (max-height: 500px) and (orientation: landscape) {
+  .map-intro__logo {
+    width: clamp(72px, 18vh, 120px);
+  }
+
+  .map-intro__tap-target {
+    gap: 0.5rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .map-intro__hint {
+    font-size: 0.75rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .map-intro--drawing .map-intro__path,
-  .map-intro--drawing .map-intro__brand-text {
-    animation-duration: 0.5s;
+  .map-intro {
+    --intro-exit-duration: 0.8s;
   }
 
-  .map-intro__backdrop,
-  .map-intro__logo-wrap {
-    transition-duration: 0.6s;
+  .map-intro--ready .map-intro__tap-target {
+    animation: none;
   }
 
-  .map-page .map-view {
-    transition-duration: 0.6s;
+  .map-intro__hint.is-visible {
+    animation: none;
+    opacity: 0.65;
   }
 }

@@ -27,9 +27,8 @@
       html.site-intro-active,
       html.site-intro-active body {
         background: #000;
-        overflow: hidden;
       }
-      html.site-intro-active .navbar {
+      html.site-intro-active:not(.site-intro-ui-ready) .navbar {
         visibility: hidden;
         opacity: 0;
       }

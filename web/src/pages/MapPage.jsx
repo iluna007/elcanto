@@ -9,8 +9,6 @@ import '../styles/map-intro.css'
 function MapPage() {
   const [showIntro, setShowIntro] = useState(true)
   const [mountMap, setMountMap] = useState(false)
-  const [mapVisible, setMapVisible] = useState(false)
-  const [uiVisible, setUiVisible] = useState(false)
 
   useLayoutEffect(() => {
     document.documentElement.classList.add('site-intro-active')
@@ -18,41 +16,31 @@ function MapPage() {
 
     return () => {
       document.documentElement.classList.remove('site-intro-active')
-      document.body.classList.remove('map-intro-active', 'map-intro-ui-visible')
+      document.body.classList.remove('map-intro-active', 'map-intro-ui-ready')
     }
   }, [])
 
   const handleMapReveal = useCallback(() => {
     setMountMap(true)
-    setMapVisible(true)
-  }, [])
-
-  const handleUiReveal = useCallback(() => {
-    setUiVisible(true)
-    document.body.classList.add('map-intro-ui-visible')
+    document.documentElement.classList.add('site-intro-ui-ready')
+    document.body.classList.add('map-intro-ui-ready')
   }, [])
 
   const handleIntroComplete = useCallback(() => {
     setShowIntro(false)
-    document.documentElement.classList.remove('site-intro-active')
-    document.body.classList.remove('map-intro-active', 'map-intro-ui-visible')
+    document.documentElement.classList.remove('site-intro-active', 'site-intro-ui-ready')
+    document.body.classList.remove('map-intro-active', 'map-intro-ui-ready')
   }, [])
 
   return (
-    <div
-      className={`map-page${mapVisible ? ' is-map-visible' : ''}${uiVisible ? ' is-ui-visible' : ''}`}
-    >
+    <div className="map-page is-ui-visible">
       {mountMap && <MapView />}
       <div className="map-sidebar">
         <MapHelp />
         <MapLegend />
       </div>
       {showIntro && (
-        <MapIntro
-          onMapReveal={handleMapReveal}
-          onUiReveal={handleUiReveal}
-          onComplete={handleIntroComplete}
-        />
+        <MapIntro onMapReveal={handleMapReveal} onComplete={handleIntroComplete} />
       )}
     </div>
   )

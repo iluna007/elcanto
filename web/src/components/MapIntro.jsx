@@ -1,37 +1,42 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import LogoSplash from './LogoSplash'
 
-const TIMING = {
-  drawStart: 700,
-  fillLogo: 5200,
-  mapReveal: 5800,
-  showUi: 7200,
-  complete: 9000,
-}
+const READY_MS = 350
+const EXIT_DURATION_MS = 2400
 
-function MapIntro({ onMapReveal, onUiReveal, onComplete }) {
+function MapIntro({ onMapReveal, onComplete }) {
   const timersRef = useRef([])
+  const continuedRef = useRef(false)
   const [phase, setPhase] = useState('enter')
 
   useEffect(() => {
-    const timers = timersRef.current
-
-    timers.push(window.setTimeout(() => setPhase('drawing'), TIMING.drawStart))
-    timers.push(window.setTimeout(() => setPhase('filling'), TIMING.fillLogo))
-    timers.push(window.setTimeout(() => {
-      setPhase('exit')
-      onMapReveal?.()
-    }, TIMING.mapReveal))
-    timers.push(window.setTimeout(() => onUiReveal?.(), TIMING.showUi))
-    timers.push(window.setTimeout(() => onComplete?.(), TIMING.complete))
+    const timer = window.setTimeout(() => setPhase('ready'), READY_MS)
+    timersRef.current.push(timer)
 
     return () => {
-      timers.forEach(clearTimeout)
-      timers.length = 0
+      timersRef.current.forEach(clearTimeout)
+      timersRef.current = []
     }
-  }, [onMapReveal, onUiReveal, onComplete])
+  }, [])
 
-  return <LogoSplash phase={phase} />
+  const handleContinue = useCallback(() => {
+    if (continuedRef.current || phase !== 'ready') return
+    continuedRef.current = true
+
+    onMapReveal?.()
+    setPhase('filling')
+
+    const timer = window.setTimeout(() => onComplete?.(), EXIT_DURATION_MS)
+    timersRef.current.push(timer)
+  }, [phase, onMapReveal, onComplete])
+
+  return (
+    <LogoSplash
+      phase={phase}
+      exitDurationMs={EXIT_DURATION_MS}
+      onContinue={handleContinue}
+    />
+  )
 }
 
 export default MapIntro

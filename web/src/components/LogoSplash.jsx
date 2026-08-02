@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useLanguage } from '../i18n/LanguageContext'
 import '../styles/map-intro.css'
 
 export const LOGO_PATHS = [
@@ -7,73 +7,48 @@ export const LOGO_PATHS = [
   'M345.78,186.29c0,12.05-9.77,21.82-21.83,21.82s-21.82-9.77-21.82-21.82,9.77-21.83,21.82-21.83,21.83,9.77,21.83,21.83',
 ]
 
-function setupStrokeDraw(el, delay = 0) {
-  if (!el) return
-  const length = Math.ceil(el.getTotalLength?.() ?? el.getComputedTextLength?.() ?? 1000)
-  el.style.strokeDasharray = `${length}`
-  el.style.strokeDashoffset = `${length}`
-  el.style.animationDelay = `${delay}s`
-}
-
-function LogoSplash({ phase = 'enter', className = '', label = 'El Encanto' }) {
-  const pathRefs = useRef([])
-  const textRef = useRef(null)
-
-  useEffect(() => {
-    if (phase === 'exit') return undefined
-
-    pathRefs.current.filter(Boolean).forEach((path, index) => {
-      setupStrokeDraw(path, index * 0.45)
-    })
-
-    setupStrokeDraw(textRef.current, 0.85)
-
-    return undefined
-  }, [phase])
+function LogoSplash({
+  phase = 'ready',
+  className = '',
+  exitDurationMs = 2400,
+  onContinue,
+  showHint = true,
+}) {
+  const { t } = useLanguage()
+  const isReady = phase === 'ready'
 
   return (
-    <div className={`map-intro map-intro--${phase} ${className}`.trim()} aria-hidden="true">
-      <div className="map-intro__backdrop" />
+    <div
+      className={`map-intro map-intro--${phase} ${className}`.trim()}
+      style={{ '--intro-exit-duration': `${exitDurationMs / 1000}s` }}
+    >
+      <div className="map-intro__backdrop">
+        <div className="map-intro__backdrop-veil" />
+      </div>
       <div className="map-intro__logo-wrap">
-        <div className="map-intro__brand-row">
+        <button
+          type="button"
+          className="map-intro__tap-target"
+          onClick={onContinue}
+          disabled={!isReady || !onContinue}
+          aria-label={t.map.introTap}
+        >
           <svg
             className="map-intro__logo"
             viewBox="0 0 500 500"
             xmlns="http://www.w3.org/2000/svg"
-            role="img"
             aria-hidden="true"
           >
             {LOGO_PATHS.map((d, index) => (
-              <path
-                key={index}
-                ref={(el) => {
-                  pathRefs.current[index] = el
-                }}
-                className="map-intro__path"
-                d={d}
-              />
+              <path key={index} className="map-intro__path" d={d} />
             ))}
           </svg>
-          <svg
-            className="map-intro__brand-svg"
-            viewBox="0 0 360 56"
-            xmlns="http://www.w3.org/2000/svg"
-            role="img"
-            aria-label={label}
-          >
-            <text
-              ref={textRef}
-              className="map-intro__brand-text"
-              x="0"
-              y="44"
-              fontFamily="Georgia, 'Times New Roman', serif"
-              fontSize="44"
-              letterSpacing="1.5"
-            >
-              {label}
-            </text>
-          </svg>
-        </div>
+          {showHint && (
+            <span className={`map-intro__hint${isReady ? ' is-visible' : ''}`}>
+              {t.map.introHint}
+            </span>
+          )}
+        </button>
       </div>
     </div>
   )
