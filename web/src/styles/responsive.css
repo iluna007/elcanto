@@ -18,10 +18,16 @@ body {
   padding-right: env(safe-area-inset-right);
 }
 
-img,
-video {
+img {
   max-width: 100%;
   height: auto;
+}
+
+.contact-page__video {
+  max-width: none;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 /* Dynamic viewport height */

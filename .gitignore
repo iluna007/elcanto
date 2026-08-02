@@ -29,12 +29,19 @@ logos/*.eps
 *.ai
 *.eps
 
-# Large media — host outside Git (Netlify/CDN)
-web/public/videos/
-*.mp4
+# Large source video (local only)
+web/public/videos/*-source.mp4
+
+# Ignore other videos; allow compressed deploy asset
+web/public/videos/*
+!web/public/videos/el-encanto-drone.mp4
 *.mov
 *.avi
 *.mkv
+
+# Original JPGs replaced by WebP in repo
+web/public/casas/*.jpg
+web/public/marketing/*.jpg
 
 # Unused duplicate image subfolders in public
 web/public/casas/bungalow/

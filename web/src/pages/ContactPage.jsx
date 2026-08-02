@@ -1,42 +1,28 @@
 import { useLanguage } from '../i18n/LanguageContext'
 import { properties } from '../data/properties'
-import { useIsMobile } from '../hooks/useMediaQuery'
 
 const contactVideoSrc =
   import.meta.env.VITE_CONTACT_VIDEO_URL || '/videos/el-encanto-drone.mp4'
 
-const POSTER = '/marketing/encanto-sunset.jpg'
+const POSTER = '/marketing/encanto-sunset.webp'
 
 function ContactPage() {
   const { t } = useLanguage()
-  const isMobile = useIsMobile()
-  const useVideo = contactVideoSrc && !isMobile
 
   return (
     <div className="contact-page">
-      {useVideo ? (
-        <video
-          className="contact-page__video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="none"
-          poster={POSTER}
-          aria-hidden="true"
-        >
-          <source src={contactVideoSrc} type="video/mp4" />
-        </video>
-      ) : (
-        <img
-          className="contact-page__video contact-page__poster"
-          src={POSTER}
-          alt=""
-          aria-hidden="true"
-          loading="eager"
-          decoding="async"
-        />
-      )}
+      <video
+        className="contact-page__video"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster={POSTER}
+        aria-hidden="true"
+      >
+        <source src={contactVideoSrc} type="video/mp4" />
+      </video>
 
       <div className="contact-page__overlay" />
 
