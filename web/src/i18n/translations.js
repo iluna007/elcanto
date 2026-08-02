@@ -1,7 +1,7 @@
 export const translations = {
   es: {
     meta: {
-      title: 'El Encanto Outdoors',
+      title: 'El Encanto',
     },
     nav: {
       map: 'Mapa',
@@ -108,7 +108,7 @@ export const translations = {
       heroEyebrow: 'Sobre nosotros',
       heroTitle: 'Un santuario en la costa del Pacífico',
       heroText:
-        'El Encanto Outdoors es más que un desarrollo residencial: es una comunidad diseñada para quienes buscan belleza natural, privacidad y calidad de vida.',
+        'El Encanto es más que un desarrollo residencial: es una comunidad diseñada para quienes buscan belleza natural, privacidad y calidad de vida.',
       heroImageAlt: 'Atardecer en El Encanto',
       sections: [
         {
@@ -155,7 +155,7 @@ export const translations = {
   },
   en: {
     meta: {
-      title: 'El Encanto Outdoors',
+      title: 'El Encanto',
     },
     nav: {
       map: 'Map',
@@ -262,7 +262,7 @@ export const translations = {
       heroEyebrow: 'About us',
       heroTitle: 'A sanctuary on the Pacific coast',
       heroText:
-        'El Encanto Outdoors is more than a residential development: it is a community designed for those seeking natural beauty, privacy, and quality of life.',
+        'El Encanto is more than a residential development: it is a community designed for those seeking natural beauty, privacy, and quality of life.',
       heroImageAlt: 'Sunset at El Encanto',
       sections: [
         {

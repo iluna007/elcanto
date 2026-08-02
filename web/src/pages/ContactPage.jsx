@@ -34,7 +34,7 @@ function ContactPage() {
           <section className="contact-card">
             <h2>{t.contact.infoTitle}</h2>
             <p>
-              <strong>El Encanto Outdoors</strong>
+              <strong>El Encanto</strong>
             </p>
             <p>Nacascolo, Rivas, Nicaragua</p>
             <p>

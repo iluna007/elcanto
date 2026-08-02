@@ -1,6 +1,6 @@
-# El Encanto Outdoors
+# El Encanto
 
-Sitio web interactivo para El Encanto Outdoors — mapa Mapbox, galería de proyectos, contacto y sobre nosotros.
+Sitio web interactivo para El Encanto — mapa Mapbox, galería de proyectos, contacto y sobre nosotros.
 
 ## Desarrollo local
 
