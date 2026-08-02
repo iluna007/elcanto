@@ -1,5 +1,7 @@
+import { getDefaultMapboxToken } from './mapboxToken.js'
+
 export const MAPBOX_STYLE = 'mapbox://styles/ikerluna/cmsc3stlz00i001qodk2a7cta'
-export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN ?? ''
+export const MAPBOX_TOKEN = import.meta.env.VITE_MAPBOX_TOKEN || getDefaultMapboxToken()
 
 export const MAP_CENTER = {
   lat: 11.269862702012793,

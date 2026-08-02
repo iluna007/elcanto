@@ -28,17 +28,12 @@ O define `VITE_CONTACT_VIDEO_URL` en `web/.env` apuntando a una URL externa.
 1. Conecta el repositorio [iluna007/elcanto](https://github.com/iluna007/elcanto).
 2. Netlify detectará `netlify.toml` automáticamente (`base: web`, `publish: dist`).
 
-### Variable obligatoria (Mapbox)
+### Variable opcional (Mapbox)
 
-El mapa **no funcionará** sin esta variable en Netlify:
+Por defecto el sitio incluye un token público de Mapbox (`pk.`). Opcionalmente puedes definir el tuyo en Netlify:
 
-1. **Site configuration** → **Environment variables** → **Add a variable**
-2. **Key:** `VITE_MAPBOX_TOKEN`
-3. **Value:** tu token público de Mapbox (empieza con `pk.`)
-4. **Scopes:** *All scopes* (o al menos *Builds*)
-5. Guarda y haz **Trigger deploy** → **Clear cache and deploy site**
-
-> Vite incluye las variables `VITE_*` en el bundle **durante el build**. Si añades la variable después del primer deploy, debes volver a desplegar.
+- **Key:** `VITE_MAPBOX_TOKEN`
+- **Scopes:** *Builds* o *All scopes*
 
 ### Variable opcional (video de contacto)
 
