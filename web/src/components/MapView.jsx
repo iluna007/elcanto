@@ -100,14 +100,16 @@ function MapView() {
   useEffect(() => {
     if (!MAPBOX_TOKEN || !containerRef.current) return
 
+    const isMobile = window.matchMedia('(max-width: 768px)').matches
+
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: MAPBOX_STYLE,
       center: [MAP_CENTER.lng, MAP_CENTER.lat],
       zoom: MAP_CENTER.zoom,
-      pitch: MAP_CENTER.pitch,
+      pitch: isMobile ? Math.min(MAP_CENTER.pitch, 40) : MAP_CENTER.pitch,
       bearing: MAP_CENTER.bearing,
-      antialias: true,
+      antialias: !isMobile,
       maxBounds: MAP_BOUNDS,
       minZoom: MAP_ZOOM.min,
       maxZoom: MAP_ZOOM.max,

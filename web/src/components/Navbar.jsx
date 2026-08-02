@@ -1,20 +1,41 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { properties } from '../data/properties'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useIsMobile } from '../hooks/useMediaQuery'
 import { getActiveProjectSlug } from '../hooks/useProjectTheme'
 import '../styles/project-theme.css'
 
 function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false)
   const [projectsOpen, setProjectsOpen] = useState(false)
   const { t, toggleLang } = useLanguage()
   const { pathname } = useLocation()
+  const isMobile = useIsMobile()
   const activeSlug = getActiveProjectSlug(pathname)
+
+  useEffect(() => {
+    setMenuOpen(false)
+    setProjectsOpen(false)
+  }, [pathname])
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  const toggleProjects = (event) => {
+    if (!isMobile) return
+    event.preventDefault()
+    setProjectsOpen((prev) => !prev)
+  }
 
   return (
     <nav className="navbar navbar--glass">
-      <Link to="/" className="navbar__brand">
-        <img src="/logo-icon.svg" alt="El Encanto" className="navbar__logo" />
+      <Link to="/" className="navbar__brand" onClick={() => setMenuOpen(false)}>
+        <img src="/logo-icon.svg" alt="El Encanto" className="navbar__logo" width="38" height="38" />
         <span className="navbar__name">El Encanto</span>
         {activeSlug && (
           <span
@@ -28,21 +49,38 @@ function Navbar() {
         )}
       </Link>
 
-      <div className="navbar__links">
+      <button
+        type="button"
+        className={`navbar__toggle${menuOpen ? ' is-open' : ''}`}
+        onClick={() => setMenuOpen((prev) => !prev)}
+        aria-expanded={menuOpen}
+        aria-controls="navbar-menu"
+        aria-label={menuOpen ? 'Cerrar menú' : 'Abrir menú'}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <div
+        id="navbar-menu"
+        className={`navbar__links${menuOpen ? ' is-open' : ''}`}
+        onMouseLeave={!isMobile ? () => setProjectsOpen(false) : undefined}
+      >
         <NavLink to="/" end className={({ isActive }) => (isActive ? 'active' : '')}>
           {t.nav.map}
         </NavLink>
 
         <div
-          className="navbar__dropdown"
-          onMouseEnter={() => setProjectsOpen(true)}
-          onMouseLeave={() => setProjectsOpen(false)}
+          className={`navbar__dropdown${projectsOpen ? ' is-open' : ''}`}
+          onMouseEnter={!isMobile ? () => setProjectsOpen(true) : undefined}
         >
           <NavLink
             to="/proyectos"
             className={({ isActive }) =>
               `navbar__dropdown-trigger ${isActive ? 'active' : ''}`
             }
+            onClick={toggleProjects}
           >
             {t.nav.projects} ▾
           </NavLink>
@@ -53,6 +91,10 @@ function Navbar() {
                   key={property.id}
                   to={property.link}
                   className={activeSlug === property.slug ? 'active-project' : ''}
+                  onClick={() => {
+                    setMenuOpen(false)
+                    setProjectsOpen(false)
+                  }}
                 >
                   <span
                     className="navbar__dropdown-swatch"
@@ -85,6 +127,15 @@ function Navbar() {
           {t.nav.langSwitch}
         </button>
       </div>
+
+      {menuOpen && (
+        <button
+          type="button"
+          className="navbar__backdrop"
+          aria-label="Cerrar menú"
+          onClick={() => setMenuOpen(false)}
+        />
+      )}
     </nav>
   )
 }

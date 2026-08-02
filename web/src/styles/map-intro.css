@@ -1,0 +1,190 @@
+/* ── Map intro sequence ── */
+
+.map-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: all;
+}
+
+.map-intro__backdrop {
+  position: absolute;
+  inset: 0;
+  background: #060d0b;
+  opacity: 1;
+  transition: opacity 1.4s ease 0.2s;
+}
+
+.map-intro__logo-wrap {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  transform: scale(1);
+  opacity: 1;
+  transition:
+    opacity 0.9s ease,
+    transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.map-intro__logo {
+  width: min(340px, 62vw);
+  height: auto;
+  filter: drop-shadow(0 12px 48px rgba(147, 155, 80, 0.35));
+}
+
+.map-intro__path {
+  fill: transparent;
+  stroke: #b8c179;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.map-intro--enter .map-intro__logo-wrap {
+  animation: map-intro-logo-in 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.map-intro--drawing .map-intro__path {
+  animation: map-intro-draw 2.8s cubic-bezier(0.45, 0, 0.25, 1) forwards;
+}
+
+.map-intro--filling .map-intro__path {
+  animation: none;
+  stroke-dashoffset: 0;
+  fill: #939b50;
+  stroke: #939b50;
+  stroke-width: 0;
+  transition:
+    fill 0.8s ease,
+    stroke-width 0.5s ease;
+}
+
+.map-intro--exit .map-intro__backdrop {
+  opacity: 0;
+}
+
+.map-intro--exit .map-intro__logo-wrap {
+  opacity: 0;
+  transform: scale(0.88);
+}
+
+.map-intro__brand {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.1rem, 3vw, 1.45rem);
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 233, 0.75);
+  margin: 0;
+  opacity: 0;
+  animation: map-intro-brand-in 0.8s ease 1.2s forwards;
+}
+
+.map-intro--exit .map-intro__brand {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+@keyframes map-intro-logo-in {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes map-intro-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes map-intro-brand-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Map page layers */
+.map-page .map-view {
+  opacity: 0;
+  transition: opacity 2.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.map-page.is-map-visible .map-view {
+  opacity: 1;
+}
+
+.map-page .map-sidebar {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.map-page.is-ui-visible .map-sidebar {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  transition-delay: 0.15s;
+}
+
+/* Hide chrome during intro */
+body.map-intro-active .navbar {
+  opacity: 0;
+  transform: translateY(-110%);
+  pointer-events: none;
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.map-intro-ui-visible .navbar {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+body.map-intro-active .map-view .mapboxgl-ctrl-top-right {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+body.map-intro-ui-visible .map-view .mapboxgl-ctrl-top-right {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.2s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .map-intro {
+    display: none;
+  }
+
+  .map-page .map-view,
+  .map-page .map-sidebar,
+  body .navbar,
+  body .map-view .mapboxgl-ctrl-top-right {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    pointer-events: auto !important;
+  }
+}

@@ -14,4 +14,17 @@ export default defineConfig({
   worker: {
     format: 'es',
   },
+  build: {
+    target: 'es2020',
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('mapbox-gl')) return 'mapbox'
+          if (id.includes('node_modules/gsap')) return 'gsap'
+          if (id.includes('node_modules/react-router')) return 'router'
+          if (id.includes('node_modules/react-dom') || id.includes('node_modules/react/')) return 'react-vendor'
+        },
+      },
+    },
+  },
 })

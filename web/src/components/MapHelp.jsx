@@ -1,11 +1,17 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useIsMobile } from '../hooks/useMediaQuery'
 import MapHelpIcon from './MapHelpIcon'
 import '../styles/map-help.css'
 
 function MapHelp() {
   const { t } = useLanguage()
-  const [open, setOpen] = useState(true)
+  const isMobile = useIsMobile()
+  const [open, setOpen] = useState(false)
+
+  useEffect(() => {
+    setOpen(!isMobile)
+  }, [isMobile])
 
   if (!open) {
     return (
