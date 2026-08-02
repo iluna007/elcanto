@@ -27,9 +27,22 @@ O define `VITE_CONTACT_VIDEO_URL` en `web/.env` apuntando a una URL externa.
 
 1. Conecta el repositorio [iluna007/elcanto](https://github.com/iluna007/elcanto).
 2. Netlify detectará `netlify.toml` automáticamente (`base: web`, `publish: dist`).
-3. Variables de entorno recomendadas en Netlify → Site settings → Environment variables:
-   - `VITE_MAPBOX_TOKEN` — token público de Mapbox
-   - `VITE_CONTACT_VIDEO_URL` — URL del video drone (sube el MP4 a Netlify Large Media, Cloudinary, etc.)
+
+### Variable obligatoria (Mapbox)
+
+El mapa **no funcionará** sin esta variable en Netlify:
+
+1. **Site configuration** → **Environment variables** → **Add a variable**
+2. **Key:** `VITE_MAPBOX_TOKEN`
+3. **Value:** tu token público de Mapbox (empieza con `pk.`)
+4. **Scopes:** *All scopes* (o al menos *Builds*)
+5. Guarda y haz **Trigger deploy** → **Clear cache and deploy site**
+
+> Vite incluye las variables `VITE_*` en el bundle **durante el build**. Si añades la variable después del primer deploy, debes volver a desplegar.
+
+### Variable opcional (video de contacto)
+
+- `VITE_CONTACT_VIDEO_URL` — URL del video drone (Cloudinary, S3, etc.)
 
 ## Estructura
 

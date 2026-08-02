@@ -14,7 +14,9 @@ import {
 } from '../data/properties'
 
 mapboxgl.workerClass = MapboxWorker
-mapboxgl.accessToken = MAPBOX_TOKEN
+if (MAPBOX_TOKEN) {
+  mapboxgl.accessToken = MAPBOX_TOKEN
+}
 
 const SOURCE_ID = 'properties-source'
 const FILL_LAYER_ID = 'properties-fill'
@@ -96,7 +98,7 @@ function MapView() {
   }
 
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!MAPBOX_TOKEN || !containerRef.current) return
 
     const map = new mapboxgl.Map({
       container: containerRef.current,
@@ -112,7 +114,7 @@ function MapView() {
     })
 
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right')
-    map.addControl(new mapboxgl.ScaleControl(), 'bottom-left')
+    map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'top-right')
 
     map.on('load', () => {
       map.addSource(SOURCE_ID, {
@@ -239,6 +241,14 @@ function MapView() {
       map.remove()
     }
   }, [])
+
+  if (!MAPBOX_TOKEN) {
+    return (
+      <div className="map-view map-view--error">
+        <p>{t.map.tokenMissing}</p>
+      </div>
+    )
+  }
 
   return <div ref={containerRef} className="map-view" />
 }

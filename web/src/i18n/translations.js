@@ -55,6 +55,7 @@ export const translations = {
       ],
       boundsNote: 'La navegación está limitada al área de El Encanto.',
       popupCta: 'Ver proyecto →',
+      tokenMissing: 'Mapa no disponible: falta configurar VITE_MAPBOX_TOKEN.',
     },
     projects: {
       title: 'Proyectos',
@@ -209,6 +210,7 @@ export const translations = {
       ],
       boundsNote: 'Navigation is limited to the El Encanto area.',
       popupCta: 'View project →',
+      tokenMissing: 'Map unavailable: VITE_MAPBOX_TOKEN is not configured.',
     },
     projects: {
       title: 'Projects',
