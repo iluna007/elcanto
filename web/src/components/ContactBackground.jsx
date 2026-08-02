@@ -5,8 +5,6 @@ import { getResponsiveImageProps, IMAGE_SIZES } from '../utils/responsiveImage'
 const CONTACT_VIDEO_SOURCE = '/videos/el-encanto-drone-source.mp4'
 const CONTACT_VIDEO_FALLBACK = '/videos/el-encanto-drone.mp4'
 
-const contactVideoSrc = import.meta.env.VITE_CONTACT_VIDEO_URL || CONTACT_VIDEO_SOURCE
-
 const POSTER = '/marketing/encanto-sunset.webp'
 
 function ContactPoster() {
@@ -29,7 +27,11 @@ function ContactPoster() {
 function ContactBackground() {
   const prefersReducedMotion = usePrefersReducedMotion()
   const videoRef = useRef(null)
+  const [videoSrc, setVideoSrc] = useState(
+    () => import.meta.env.VITE_CONTACT_VIDEO_URL || CONTACT_VIDEO_SOURCE,
+  )
   const [loadFailed, setLoadFailed] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(false)
 
   useEffect(() => {
     if (prefersReducedMotion || loadFailed) return undefined
@@ -42,14 +44,16 @@ function ContactBackground() {
 
     const tryPlay = () => {
       if (document.hidden) return
-      video.play().catch(() => {
-        // Autoplay can fail until the browser has buffered enough data — keep the
-        // video element mounted and retry on later media events instead of falling
-        // back to a static poster.
-      })
+      video
+        .play()
+        .then(() => setIsPlaying(true))
+        .catch(() => {
+          // Retry when more data is buffered.
+        })
     }
 
     const onCanPlay = () => tryPlay()
+    const onPlaying = () => setIsPlaying(true)
     const onVisibilityChange = () => {
       if (document.hidden) {
         video.pause()
@@ -58,50 +62,53 @@ function ContactBackground() {
       tryPlay()
     }
 
+    video.load()
     tryPlay()
     video.addEventListener('canplay', onCanPlay)
+    video.addEventListener('canplaythrough', onCanPlay)
     video.addEventListener('loadeddata', onCanPlay)
+    video.addEventListener('playing', onPlaying)
     document.addEventListener('visibilitychange', onVisibilityChange)
 
     return () => {
       video.removeEventListener('canplay', onCanPlay)
+      video.removeEventListener('canplaythrough', onCanPlay)
       video.removeEventListener('loadeddata', onCanPlay)
+      video.removeEventListener('playing', onPlaying)
       document.removeEventListener('visibilitychange', onVisibilityChange)
       video.pause()
     }
-  }, [prefersReducedMotion, loadFailed])
+  }, [prefersReducedMotion, loadFailed, videoSrc])
+
+  const handleError = () => {
+    if (videoSrc === CONTACT_VIDEO_SOURCE && !import.meta.env.VITE_CONTACT_VIDEO_URL) {
+      setVideoSrc(CONTACT_VIDEO_FALLBACK)
+      setIsPlaying(false)
+      return
+    }
+    setLoadFailed(true)
+  }
 
   if (prefersReducedMotion || loadFailed) {
     return <ContactPoster />
   }
 
-  const { src: posterSrc } = getResponsiveImageProps(POSTER)
-
   return (
     <video
       ref={videoRef}
-      className="contact-page__media"
+      key={videoSrc}
+      className={`contact-page__media${isPlaying ? ' is-playing' : ''}`}
+      src={videoSrc}
       autoPlay
       muted
       loop
       playsInline
       preload="auto"
-      poster={posterSrc}
       disablePictureInPicture
       disableRemotePlayback
       aria-hidden="true"
-      onError={() => setLoadFailed(true)}
-    >
-      {!import.meta.env.VITE_CONTACT_VIDEO_URL && (
-        <>
-          <source src={CONTACT_VIDEO_SOURCE} type="video/mp4" />
-          <source src={CONTACT_VIDEO_FALLBACK} type="video/mp4" />
-        </>
-      )}
-      {import.meta.env.VITE_CONTACT_VIDEO_URL && (
-        <source src={contactVideoSrc} type="video/mp4" />
-      )}
-    </video>
+      onError={handleError}
+    />
   )
 }
 

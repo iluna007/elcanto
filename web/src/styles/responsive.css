@@ -18,7 +18,7 @@ body {
   padding-right: env(safe-area-inset-right);
 }
 
-img:not(.contact-page__media) {
+img:not(.contact-page__media):not(.navbar__logo) {
   max-width: 100%;
   height: auto;
 }

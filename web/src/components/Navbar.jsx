@@ -132,7 +132,7 @@ function Navbar() {
   return (
     <nav className={`navbar navbar--glass${menuOpen ? ' navbar--menu-open' : ''}`}>
       <Link to="/" className="navbar__brand" onClick={closeMenu}>
-        <img src="/logo-icon.svg" alt="El Encanto" className="navbar__logo" width="38" height="38" />
+        <img src="/logo-icon.svg" alt="El Encanto" className="navbar__logo" width="36" height="36" />
         <span className="navbar__name">El Encanto</span>
         {activeSlug && (
           <span

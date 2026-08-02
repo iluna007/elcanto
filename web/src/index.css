@@ -41,6 +41,7 @@ a {
   gap: 1rem;
   padding: 0 2rem;
   height: var(--navbar-height, 64px);
+  overflow: hidden;
 }
 
 .navbar--glass {
@@ -79,9 +80,11 @@ a {
 }
 
 .navbar__logo {
-  height: 38px;
-  width: auto;
+  display: block;
+  width: 36px;
+  height: 36px;
   flex-shrink: 0;
+  object-fit: contain;
 }
 
 .navbar__name {
@@ -323,6 +326,13 @@ a {
   object-position: center;
   z-index: 0;
   pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.contact-page__media.is-playing,
+img.contact-page__media {
+  opacity: 1;
 }
 
 .contact-page__overlay {
