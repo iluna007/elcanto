@@ -15,6 +15,25 @@
     <link rel="preconnect" href="https://api.mapbox.com" crossorigin />
     <link rel="dns-prefetch" href="https://api.mapbox.com" />
     <title>El Encanto</title>
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        if (path === '/' || path === '') {
+          document.documentElement.classList.add('site-intro-active');
+        }
+      })();
+    </script>
+    <style>
+      html.site-intro-active,
+      html.site-intro-active body {
+        background: #000;
+        overflow: hidden;
+      }
+      html.site-intro-active .navbar {
+        visibility: hidden;
+        opacity: 0;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>

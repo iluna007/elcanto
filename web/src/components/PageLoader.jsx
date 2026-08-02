@@ -1,8 +1,20 @@
+import { useEffect, useState } from 'react'
+import LogoSplash from './LogoSplash'
+
 function PageLoader() {
+  const [phase, setPhase] = useState('enter')
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => setPhase('drawing'), 400)
+    return () => window.clearTimeout(timer)
+  }, [])
+
   return (
-    <div className="page-loader" role="status" aria-label="Loading">
-      <div className="page-loader__spinner" />
-    </div>
+    <LogoSplash
+      phase={phase}
+      className="map-intro--page-loader"
+      label="El Encanto"
+    />
   )
 }
 

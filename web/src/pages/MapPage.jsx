@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useLayoutEffect, useState } from 'react'
 import MapView from '../components/MapView'
 import MapLegend from '../components/MapLegend'
 import MapHelp from '../components/MapHelp'
@@ -7,35 +7,24 @@ import '../styles/map-sidebar.css'
 import '../styles/map-intro.css'
 
 function MapPage() {
-  const skipIntro =
-    typeof window !== 'undefined' &&
-    window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  const [showIntro, setShowIntro] = useState(true)
+  const [mountMap, setMountMap] = useState(false)
+  const [mapVisible, setMapVisible] = useState(false)
+  const [uiVisible, setUiVisible] = useState(false)
 
-  const [showIntro, setShowIntro] = useState(!skipIntro)
-  const [mountMap, setMountMap] = useState(skipIntro)
-  const [mapVisible, setMapVisible] = useState(skipIntro)
-  const [uiVisible, setUiVisible] = useState(skipIntro)
-
-  useEffect(() => {
-    if (skipIntro) return undefined
-
+  useLayoutEffect(() => {
+    document.documentElement.classList.add('site-intro-active')
     document.body.classList.add('map-intro-active')
-    if (mapVisible) document.body.classList.add('map-intro-map-visible')
-    if (uiVisible) document.body.classList.add('map-intro-ui-visible')
 
     return () => {
-      document.body.classList.remove(
-        'map-intro-active',
-        'map-intro-map-visible',
-        'map-intro-ui-visible',
-      )
+      document.documentElement.classList.remove('site-intro-active')
+      document.body.classList.remove('map-intro-active', 'map-intro-ui-visible')
     }
-  }, [skipIntro, mapVisible, uiVisible])
+  }, [])
 
   const handleMapReveal = useCallback(() => {
     setMountMap(true)
     setMapVisible(true)
-    document.body.classList.add('map-intro-map-visible')
   }, [])
 
   const handleUiReveal = useCallback(() => {
@@ -45,11 +34,8 @@ function MapPage() {
 
   const handleIntroComplete = useCallback(() => {
     setShowIntro(false)
-    document.body.classList.remove(
-      'map-intro-active',
-      'map-intro-map-visible',
-      'map-intro-ui-visible',
-    )
+    document.documentElement.classList.remove('site-intro-active')
+    document.body.classList.remove('map-intro-active', 'map-intro-ui-visible')
   }, [])
 
   return (

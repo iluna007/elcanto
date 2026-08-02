@@ -2,10 +2,10 @@ import { lazy, Suspense } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import Navbar from './components/Navbar'
 import PageLoader from './components/PageLoader'
+import MapPage from './pages/MapPage'
 import { useProjectTheme } from './hooks/useProjectTheme'
 import { useNavbarHeight } from './hooks/useNavbarHeight'
 
-const MapPage = lazy(() => import('./pages/MapPage'))
 const ProjectsPage = lazy(() => import('./pages/ProjectsPage'))
 const ProjectDetailPage = lazy(() => import('./pages/ProjectDetailPage'))
 const ContactPage = lazy(() => import('./pages/ContactPage'))
