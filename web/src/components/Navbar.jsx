@@ -7,9 +7,28 @@ import { useIsMobile } from '../hooks/useMediaQuery'
 import { getActiveProjectSlug } from '../hooks/useProjectTheme'
 import '../styles/project-theme.css'
 
+function ProjectLinks({ activeSlug, onNavigate }) {
+  return properties.map((property) => (
+    <Link
+      key={property.id}
+      to={property.link}
+      className={activeSlug === property.slug ? 'active-project' : ''}
+      onClick={onNavigate}
+    >
+      <span
+        className="navbar__dropdown-swatch"
+        style={{
+          background: property.fillColor,
+          boxShadow: `0 0 0 1.5px ${property.lineColor}`,
+        }}
+      />
+      {property.name}
+    </Link>
+  ))
+}
+
 function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [projectsOpen, setProjectsOpen] = useState(false)
   const { t, toggleLang } = useLanguage()
   const { pathname } = useLocation()
   const isMobile = useIsMobile()
@@ -17,7 +36,6 @@ function Navbar() {
 
   useEffect(() => {
     setMenuOpen(false)
-    setProjectsOpen(false)
   }, [pathname])
 
   useEffect(() => {
@@ -31,12 +49,7 @@ function Navbar() {
     }
   }, [menuOpen])
 
-  const closeMenu = () => {
-    setMenuOpen(false)
-    setProjectsOpen(false)
-  }
-
-  const showProjectsMenu = isMobile ? menuOpen : projectsOpen
+  const closeMenu = () => setMenuOpen(false)
 
   const linksContent = (
     <>
@@ -44,41 +57,18 @@ function Navbar() {
         {t.nav.map}
       </NavLink>
 
-      <div
-        className={`navbar__dropdown${showProjectsMenu ? ' is-open' : ''}`}
-        onMouseEnter={!isMobile ? () => setProjectsOpen(true) : undefined}
-        onMouseLeave={!isMobile ? () => setProjectsOpen(false) : undefined}
-      >
+      <div className="navbar__dropdown">
         <NavLink
           to="/proyectos"
           className={({ isActive }) => `navbar__dropdown-trigger ${isActive ? 'active' : ''}`}
           onClick={closeMenu}
         >
           {t.nav.projects}
-          {!isMobile && ' ▾'}
+          {!isMobile && <span className="navbar__dropdown-caret" aria-hidden="true">▾</span>}
         </NavLink>
-
-        {showProjectsMenu && (
-          <div className="navbar__dropdown-menu">
-            {properties.map((property) => (
-              <Link
-                key={property.id}
-                to={property.link}
-                className={activeSlug === property.slug ? 'active-project' : ''}
-                onClick={closeMenu}
-              >
-                <span
-                  className="navbar__dropdown-swatch"
-                  style={{
-                    background: property.fillColor,
-                    boxShadow: `0 0 0 1.5px ${property.lineColor}`,
-                  }}
-                />
-                {property.name}
-              </Link>
-            ))}
-          </div>
-        )}
+        <div className="navbar__dropdown-menu">
+          <ProjectLinks activeSlug={activeSlug} onNavigate={closeMenu} />
+        </div>
       </div>
 
       <NavLink
@@ -160,11 +150,7 @@ function Navbar() {
       </button>
 
       {!isMobile && (
-        <div
-          id="navbar-menu"
-          className="navbar__links"
-          onMouseLeave={() => setProjectsOpen(false)}
-        >
+        <div id="navbar-menu" className="navbar__links">
           {linksContent}
         </div>
       )}

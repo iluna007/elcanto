@@ -189,11 +189,16 @@ img:not(.contact-page__media):not(.navbar__logo) {
 
   .navbar__dropdown-menu {
     position: static;
+    display: block;
     margin-top: 0.25rem;
+    padding-top: 0;
     box-shadow: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(0, 0, 0, 0.2);
-    display: block;
+  }
+
+  .navbar__dropdown-menu::before {
+    display: none;
   }
 
   .navbar__lang {
