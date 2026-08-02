@@ -1,0 +1,106 @@
+.project-theme-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1rem;
+  background: rgba(10, 18, 16, 0.55);
+  border: 1px solid var(--legend-line, rgba(255, 255, 255, 0.15));
+  border-left: 3px solid var(--legend-line, #52b788);
+  border-radius: 4px;
+  backdrop-filter: blur(8px);
+}
+
+.project-theme-legend__swatch {
+  width: 18px;
+  height: 18px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+.project-theme-legend__label {
+  display: block;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--legend-line, #95d5b2);
+  margin-bottom: 0.1rem;
+}
+
+.project-theme-legend__text strong {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: #e8f5e9;
+}
+
+/* ── Navbar tint when viewing a project ── */
+html[data-project] .navbar--glass {
+  border-bottom: 2px solid var(--project-line, transparent);
+  background: color-mix(in srgb, var(--project-fill, #0a1210) 28%, rgba(10, 18, 16, 0.52));
+}
+
+html[data-project] .navbar__dropdown-menu a[href*='/proyectos/'] {
+  border-left: 3px solid transparent;
+}
+
+html[data-project] .navbar__dropdown-menu a.active-project {
+  border-left-color: var(--project-line);
+  background: color-mix(in srgb, var(--project-fill) 25%, transparent);
+}
+
+/* ── Project detail themed frame ── */
+.project-detail--themed {
+  --detail-frame: var(--project-line, #52b788);
+  box-shadow: inset 0 3px 0 var(--project-line);
+}
+
+.project-detail--themed .project-detail-hero__overlay {
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--project-fill) 55%, rgba(10, 18, 16, 0.92)) 0%,
+    rgba(10, 18, 16, 0.25) 50%,
+    rgba(10, 18, 16, 0.45) 100%
+  );
+}
+
+.project-detail--themed .project-detail__section {
+  border-top-color: color-mix(in srgb, var(--project-line) 35%, transparent);
+}
+
+.project-detail--themed .project-detail__label,
+.project-detail--themed .project-detail__proximity h3 {
+  color: var(--project-line);
+}
+
+.project-detail--themed .project-explore-btn {
+  border-color: var(--project-line);
+  color: var(--project-accent, #e8f5e9);
+}
+
+.project-detail--themed .project-explore-btn:hover {
+  background: var(--project-line);
+  color: #0a1210;
+}
+
+.project-detail--themed .project-features span {
+  border-color: color-mix(in srgb, var(--project-line) 50%, transparent);
+  color: var(--project-accent, #e8f5e9);
+  background: color-mix(in srgb, var(--project-fill) 30%, transparent);
+}
+
+.project-detail__theme-bar {
+  padding: 1.25rem 4rem 0;
+  background: var(--encanto-bg, #0a1210);
+}
+
+.project-detail--themed .project-detail__intro-grid,
+.project-detail--themed .project-gallery__main img,
+.project-detail--themed .project-floorplans__image {
+  outline: 1px solid color-mix(in srgb, var(--project-line) 25%, transparent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .project-detail__theme-bar {
+    padding: 1rem 1.5rem 0;
+  }
+}

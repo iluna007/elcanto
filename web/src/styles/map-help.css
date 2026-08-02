@@ -1,0 +1,116 @@
+.map-help {
+  background: rgba(10, 18, 16, 0.62);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.85rem 1rem 1rem;
+}
+
+.map-help__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.map-help__header h2 {
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 233, 0.85);
+  font-weight: 600;
+}
+
+.map-help__header button {
+  background: none;
+  border: none;
+  color: rgba(232, 245, 233, 0.7);
+  font-size: 1.25rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0.15rem 0.35rem;
+}
+
+.map-help__header button:hover {
+  color: #e8f5e9;
+}
+
+.map-help__list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.map-help__list li {
+  display: flex;
+  gap: 0.6rem;
+  align-items: flex-start;
+}
+
+.map-help__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: #95d5b2;
+  background: rgba(82, 183, 136, 0.12);
+  border: 1px solid rgba(82, 183, 136, 0.25);
+  border-radius: 6px;
+}
+
+.map-help__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.map-help__list strong {
+  display: block;
+  font-size: 0.78rem;
+  color: #e8f5e9;
+  margin-bottom: 0.15rem;
+}
+
+.map-help__list p {
+  font-size: 0.74rem;
+  line-height: 1.45;
+  color: rgba(232, 245, 233, 0.72);
+}
+
+.map-help__note {
+  margin-top: 0.75rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  color: #52b788;
+}
+
+.map-help__fab {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(10, 18, 16, 0.65);
+  backdrop-filter: blur(10px);
+  color: #95d5b2;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 500;
+}
+
+.map-help__fab:hover {
+  background: rgba(82, 183, 136, 0.25);
+}
+
+.map-help__fab .map-help__icon {
+  background: none;
+  border: none;
+  width: auto;
+  height: auto;
+}

@@ -1,0 +1,31 @@
+.map-sidebar {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  width: min(300px, calc(100vw - 2rem));
+}
+
+.map-sidebar .map-help,
+.map-sidebar .map-legend {
+  position: static;
+  width: 100%;
+}
+
+.map-sidebar .map-help__fab,
+.map-sidebar .map-legend__fab {
+  position: static;
+  align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .map-sidebar {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    bottom: 0.75rem;
+  }
+}

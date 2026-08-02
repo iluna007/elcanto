@@ -1,0 +1,50 @@
+# Dependencies & build
+node_modules/
+web/node_modules/
+web/dist/
+dist/
+.vite/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# OS & editors
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+
+# Original heavy source assets at repo root (not web/public)
+/Casas/
+/Mapas/
+/3D Models/
+/El Encanto General Marketing Folder/
+
+# Design sources
+logos/*.ai
+logos/*.eps
+*.ai
+*.eps
+
+# Large media — host outside Git (Netlify/CDN)
+web/public/videos/
+*.mp4
+*.mov
+*.avi
+*.mkv
+
+# Unused duplicate image subfolders in public
+web/public/casas/bungalow/
+web/public/casas/casitas/
+web/public/casas/suenos/
+web/public/casas/villa-de-casbah/
+
+# Legacy / unused public assets
+web/public/vite.svg
+web/public/icons.svg
+web/public/logo.png
+web/public/logo-nav.png
+web/public/logo-horizontal.png

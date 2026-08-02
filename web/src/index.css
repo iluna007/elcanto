@@ -1,0 +1,444 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: #0a1210;
+  color: #e8f5e9;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app {
+  min-height: 100%;
+  height: 100%;
+}
+
+/* ── Glass navbar (fixed, semi-transparent) ── */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0 2rem;
+  height: var(--navbar-height, 64px);
+}
+
+.navbar--glass {
+  background: rgba(10, 18, 16, 0.52);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.navbar__brand {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.navbar__project-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.navbar__dropdown-menu a {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.navbar__dropdown-swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.navbar__logo {
+  height: 38px;
+  width: auto;
+  flex-shrink: 0;
+}
+
+.navbar__name {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 1rem;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #e8f5e9;
+  white-space: nowrap;
+}
+
+.navbar__brand:hover .navbar__name {
+  opacity: 0.85;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.navbar__links a,
+.navbar__dropdown-btn,
+.navbar__dropdown-trigger {
+  padding: 0.45rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 233, 0.75);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: color 0.15s, background 0.15s;
+}
+
+.navbar__links a:hover,
+.navbar__dropdown-btn:hover,
+.navbar__dropdown-trigger:hover,
+.navbar__links a.active,
+.navbar__dropdown-trigger.active {
+  color: #e8f5e9;
+  background: rgba(82, 183, 136, 0.12);
+}
+
+.navbar__dropdown {
+  position: relative;
+}
+
+.navbar__dropdown-menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  min-width: 220px;
+  background: rgba(17, 28, 24, 0.92);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(82, 183, 136, 0.2);
+  border-radius: 6px;
+  padding: 0.4rem;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+}
+
+.navbar__dropdown-menu a {
+  display: block;
+  padding: 0.6rem 0.85rem;
+  border-radius: 4px;
+  text-transform: none;
+  letter-spacing: 0.02em;
+  font-size: 0.88rem;
+  color: rgba(232, 245, 233, 0.85);
+}
+
+.navbar__dropdown-menu a:hover {
+  background: rgba(82, 183, 136, 0.12);
+  color: #e8f5e9;
+}
+
+.navbar__lang {
+  margin-left: 0.25rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  color: #e8f5e9;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.navbar__lang:hover {
+  background: rgba(82, 183, 136, 0.2);
+  border-color: rgba(82, 183, 136, 0.5);
+}
+
+/* ── Map full viewport ── */
+.map-page {
+  height: 100vh;
+  width: 100%;
+  position: relative;
+}
+
+.map-view {
+  width: 100%;
+  height: 100%;
+}
+
+/* Mapbox controls — offset below navbar, hide logo */
+.map-view .mapboxgl-ctrl-top-right {
+  top: calc(var(--navbar-height, 64px) + 0.75rem);
+  right: 0.75rem;
+}
+
+.map-view .mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.map-view .mapboxgl-ctrl-attrib {
+  font-size: 10px;
+  opacity: 0.65;
+  background: rgba(10, 18, 16, 0.45);
+  backdrop-filter: blur(6px);
+}
+
+.map-view .mapboxgl-ctrl-bottom-left {
+  bottom: 0.75rem;
+  left: calc(min(300px, calc(100vw - 2rem)) + 2.25rem);
+}
+
+@media (max-width: 768px) {
+  .map-view .mapboxgl-ctrl-top-right {
+    top: calc(var(--navbar-height, 64px) + 5rem);
+  }
+
+  .map-view .mapboxgl-ctrl-bottom-left {
+    left: 0.75rem;
+  }
+}
+
+/* ── Mapbox popup ── */
+.map-popup {
+  position: relative;
+}
+
+.map-popup__accent {
+  height: 4px;
+  background: var(--popup-accent, #52b788);
+  border-radius: 4px 4px 0 0;
+  margin: -0.85rem -0.85rem 0.65rem;
+}
+
+.map-popup img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 0.6rem;
+  border: 2px solid var(--popup-accent, #52b788);
+}
+
+.map-popup h3 {
+  font-size: 1rem;
+  margin-bottom: 0.35rem;
+  color: #1b4332;
+}
+
+.map-popup p {
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: #444;
+  margin-bottom: 0.4rem;
+}
+
+.map-popup__price {
+  font-weight: 600;
+  color: #2d6a4f !important;
+}
+
+.map-popup__link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #1b4332;
+  padding: 0.35rem 0.75rem;
+  background: var(--popup-bg, #d8f3dc);
+  border-radius: 4px;
+}
+
+.map-popup__link:hover {
+  filter: brightness(0.95);
+}
+
+.mapboxgl-popup-content {
+  padding: 0.85rem;
+  border-radius: 10px;
+}
+
+/* ── Contact page ── */
+.contact-page {
+  position: relative;
+  min-height: 100vh;
+  color: #e8f5e9;
+  overflow: hidden;
+}
+
+.contact-page__video {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.contact-page__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 18, 16, 0.35) 0%,
+    rgba(10, 18, 16, 0.2) 45%,
+    rgba(10, 18, 16, 0.45) 100%
+  );
+}
+
+.contact-page__content {
+  position: relative;
+  z-index: 2;
+  min-height: 100vh;
+  padding: calc(var(--navbar-height, 64px) + 3rem) 2rem 4rem;
+}
+
+.contact-page__header {
+  max-width: 1100px;
+  margin: 0 auto 2.5rem;
+}
+
+.contact-page__header h1 {
+  font-family: Georgia, serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.45);
+}
+
+.contact-page__header p {
+  color: #e8f5e9;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.contact-card,
+.contact-form {
+  background: rgba(17, 28, 24, 0.32);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  padding: 1.75rem;
+}
+
+.contact-card h2,
+.contact-form h2 {
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #52b788;
+  margin-bottom: 1.25rem;
+}
+
+.contact-card p {
+  margin-bottom: 0.5rem;
+  font-size: 0.92rem;
+  color: #d8e8dc;
+}
+
+.contact-card a {
+  color: #b8e6c8;
+}
+
+.contact-form label {
+  display: block;
+  margin-bottom: 1rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #c5d6cc;
+}
+
+.contact-form input,
+.contact-form select,
+.contact-form textarea {
+  display: block;
+  width: 100%;
+  margin-top: 0.4rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+  background: rgba(10, 18, 16, 0.25);
+  color: #e8f5e9;
+  font-family: inherit;
+  font-size: 0.9rem;
+}
+
+.contact-form input::placeholder,
+.contact-form textarea::placeholder {
+  color: rgba(232, 245, 233, 0.55);
+}
+
+.contact-form button {
+  margin-top: 0.5rem;
+  padding: 0.85rem 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(82, 183, 136, 0.25);
+  color: #e8f5e9;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.2s;
+}
+
+.contact-form button:hover {
+  background: rgba(82, 183, 136, 0.55);
+  color: #fff;
+  border-color: #52b788;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-wrap: wrap;
+    height: auto;
+    padding: 0.75rem 1rem;
+  }
+
+  .navbar__links {
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-page__content {
+    padding-top: calc(var(--navbar-height, 64px) + 5rem);
+  }
+}
