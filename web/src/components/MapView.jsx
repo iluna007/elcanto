@@ -24,6 +24,23 @@ const FILL_LAYER_ID = 'properties-fill'
 const GLOW_LAYER_ID = 'properties-glow'
 const LINE_LAYER_ID = 'properties-outline'
 const BOUNDS_LAYER_ID = 'nav-bounds-outline'
+const TERRAIN_SOURCE_ID = 'mapbox-dem'
+
+function ensureTerrainSource(map) {
+  if (map.getSource(TERRAIN_SOURCE_ID)) return
+
+  map.addSource(TERRAIN_SOURCE_ID, {
+    type: 'raster-dem',
+    url: 'mapbox://mapbox.mapbox-terrain-dem-v1',
+    tileSize: 512,
+    maxzoom: 14,
+  })
+}
+
+function ensureTerrain(map) {
+  ensureTerrainSource(map)
+  map.setTerrain({ source: TERRAIN_SOURCE_ID, exaggeration: 1.35 })
+}
 
 function buildGeoJSON() {
   return {
@@ -120,10 +137,17 @@ function MapView() {
 
     mapRef.current = map
 
+    map.on('style.load', () => {
+      ensureTerrainSource(map)
+      map.setTerrain({ source: TERRAIN_SOURCE_ID, exaggeration: 1.35 })
+    })
+
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right')
     map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'top-right')
 
     map.on('load', () => {
+      ensureTerrain(map)
+
       map.addSource(SOURCE_ID, {
         type: 'geojson',
         data: buildGeoJSON(),
