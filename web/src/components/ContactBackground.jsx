@@ -2,8 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { getResponsiveImageProps, IMAGE_SIZES } from '../utils/responsiveImage'
 
-const contactVideoSrc =
-  import.meta.env.VITE_CONTACT_VIDEO_URL || '/videos/el-encanto-drone.mp4'
+const CONTACT_VIDEO_SOURCE = '/videos/el-encanto-drone-source.mp4'
+const CONTACT_VIDEO_FALLBACK = '/videos/el-encanto-drone.mp4'
+
+const contactVideoSrc = import.meta.env.VITE_CONTACT_VIDEO_URL || CONTACT_VIDEO_SOURCE
 
 const POSTER = '/marketing/encanto-sunset.webp'
 
@@ -90,7 +92,15 @@ function ContactBackground() {
       aria-hidden="true"
       onError={() => setLoadFailed(true)}
     >
-      <source src={contactVideoSrc} type="video/mp4" />
+      {!import.meta.env.VITE_CONTACT_VIDEO_URL && (
+        <>
+          <source src={CONTACT_VIDEO_SOURCE} type="video/mp4" />
+          <source src={CONTACT_VIDEO_FALLBACK} type="video/mp4" />
+        </>
+      )}
+      {import.meta.env.VITE_CONTACT_VIDEO_URL && (
+        <source src={contactVideoSrc} type="video/mp4" />
+      )}
     </video>
   )
 }

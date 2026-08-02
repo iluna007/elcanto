@@ -15,13 +15,15 @@ Copia `.env.example` a `web/.env` y configura las variables si lo necesitas.
 
 ### Video de contacto (local)
 
-El video de fondo (`el-encanto-drone.mp4`, ~400 MB) no está en Git. Para verlo en local, colócalo en:
+El fondo de `/contacto` usa el master en alta calidad:
 
 ```
-web/public/videos/el-encanto-drone.mp4
+web/public/videos/el-encanto-drone-source.mp4
 ```
 
-O define `VITE_CONTACT_VIDEO_URL` en `web/.env` apuntando a una URL externa.
+Ese archivo (~384 MB) no está en Git (límite de GitHub). En local, colócalo ahí y Vite lo servirá.
+
+En producción (Netlify) se usa el fallback comprimido `el-encanto-drone.mp4` (~9 MB, sí está en el repo). Para servir el master en prod, define `VITE_CONTACT_VIDEO_URL` en `web/.env` apuntando a una URL externa (CDN, Netlify Large Media, etc.).
 
 ## Deploy en Netlify
 
