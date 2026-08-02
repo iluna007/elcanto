@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLanguage } from '../i18n/LanguageContext'
-import { useIsMobile } from '../hooks/useMediaQuery'
 import MapHelpIcon from './MapHelpIcon'
 import '../styles/map-help.css'
 
+function getInitialOpen() {
+  if (typeof window === 'undefined') return false
+  return !window.matchMedia('(max-width: 768px)').matches
+}
+
 function MapHelp() {
   const { t } = useLanguage()
-  const isMobile = useIsMobile()
-  const [open, setOpen] = useState(false)
-
-  useEffect(() => {
-    setOpen(!isMobile)
-  }, [isMobile])
+  const [open, setOpen] = useState(getInitialOpen)
 
   if (!open) {
     return (

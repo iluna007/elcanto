@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl'
 import MapboxWorker from 'mapbox-gl/dist/mapbox-gl-csp-worker?worker'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import { useLanguage } from '../i18n/LanguageContext'
+import { useIsMobile } from '../hooks/useMediaQuery'
 import { getLocalizedProperty } from '../i18n/helpers'
 import {
   MAPBOX_STYLE,
@@ -72,10 +73,12 @@ function buildBoundsGeoJSON() {
 
 function MapView() {
   const containerRef = useRef(null)
+  const mapRef = useRef(null)
   const popupRef = useRef(null)
   const popupCtaRef = useRef('')
   const langRef = useRef('es')
   const { t, lang } = useLanguage()
+  const isMobile = useIsMobile()
 
   popupCtaRef.current = t.map.popupCta
   langRef.current = lang
@@ -100,20 +103,22 @@ function MapView() {
   useEffect(() => {
     if (!MAPBOX_TOKEN || !containerRef.current) return
 
-    const isMobile = window.matchMedia('(max-width: 768px)').matches
+    const initialMobile = window.matchMedia('(max-width: 768px)').matches
 
     const map = new mapboxgl.Map({
       container: containerRef.current,
       style: MAPBOX_STYLE,
       center: [MAP_CENTER.lng, MAP_CENTER.lat],
       zoom: MAP_CENTER.zoom,
-      pitch: isMobile ? Math.min(MAP_CENTER.pitch, 40) : MAP_CENTER.pitch,
+      pitch: initialMobile ? Math.min(MAP_CENTER.pitch, 40) : MAP_CENTER.pitch,
       bearing: MAP_CENTER.bearing,
-      antialias: !isMobile,
+      antialias: !initialMobile,
       maxBounds: MAP_BOUNDS,
       minZoom: MAP_ZOOM.min,
       maxZoom: MAP_ZOOM.max,
     })
+
+    mapRef.current = map
 
     map.addControl(new mapboxgl.NavigationControl({ visualizePitch: true }), 'top-right')
     map.addControl(new mapboxgl.ScaleControl({ unit: 'metric' }), 'top-right')
@@ -241,8 +246,15 @@ function MapView() {
       window.removeEventListener('resize', handleResize)
       popupRef.current?.remove()
       map.remove()
+      mapRef.current = null
     }
   }, [])
+
+  useEffect(() => {
+    const map = mapRef.current
+    if (!map) return
+    map.setPitch(isMobile ? Math.min(MAP_CENTER.pitch, 40) : MAP_CENTER.pitch)
+  }, [isMobile])
 
   if (!MAPBOX_TOKEN) {
     return (

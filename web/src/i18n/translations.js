@@ -2,6 +2,20 @@ export const translations = {
   es: {
     meta: {
       title: 'El Encanto',
+      description:
+        'El Encanto — desarrollo residencial en Nacascolo, Rivas. Explora modelos, mapa interactivo y contacto.',
+      mapTitle: 'El Encanto | Mapa interactivo',
+      mapDescription:
+        'Explora El Encanto en el mapa interactivo. Bungalows, casitas y villas en Nacascolo, Rivas, Nicaragua.',
+      projectsTitle: 'Proyectos | El Encanto',
+      projectsDescription:
+        'Conoce los modelos de vivienda de El Encanto: bungalows, casitas, Sueños Home Models y Villa de Casbah.',
+      aboutTitle: 'Sobre nosotros | El Encanto',
+      aboutDescription:
+        'Historia, estilo de vida y visión de El Encanto, desarrollo residencial en la costa del Pacífico nicaragüense.',
+      contactTitle: 'Contacto | El Encanto',
+      contactDescription:
+        'Escríbenos o llámanos para conocer disponibilidad, precios y visitas en El Encanto, Nacascolo, Rivas.',
     },
     nav: {
       map: 'Mapa',
@@ -106,6 +120,11 @@ export const translations = {
       message: 'Mensaje',
       messagePlaceholder: 'Cuéntanos qué buscas...',
       submit: 'Enviar mensaje',
+      phoneNi: 'Nicaragua',
+      phoneUs: 'Estados Unidos',
+      socialTitle: 'Redes sociales',
+      facebook: 'Facebook',
+      instagram: 'Instagram',
     },
     about: {
       heroEyebrow: 'Sobre nosotros',
@@ -159,6 +178,20 @@ export const translations = {
   en: {
     meta: {
       title: 'El Encanto',
+      description:
+        'El Encanto — residential development in Nacascolo, Rivas. Explore home models, interactive map, and contact.',
+      mapTitle: 'El Encanto | Interactive map',
+      mapDescription:
+        'Explore El Encanto on the interactive map. Bungalows, casitas, and villas in Nacascolo, Rivas, Nicaragua.',
+      projectsTitle: 'Projects | El Encanto',
+      projectsDescription:
+        'Discover El Encanto home models: bungalows, casitas, Sueños Home Models, and Villa de Casbah.',
+      aboutTitle: 'About us | El Encanto',
+      aboutDescription:
+        'The story, lifestyle, and vision of El Encanto, a residential development on Nicaragua\'s Pacific coast.',
+      contactTitle: 'Contact | El Encanto',
+      contactDescription:
+        'Email or call us for availability, pricing, and visits at El Encanto, Nacascolo, Rivas.',
     },
     nav: {
       map: 'Map',
@@ -263,6 +296,11 @@ export const translations = {
       message: 'Message',
       messagePlaceholder: 'Tell us what you are looking for...',
       submit: 'Send message',
+      phoneNi: 'Nicaragua',
+      phoneUs: 'United States',
+      socialTitle: 'Social media',
+      facebook: 'Facebook',
+      instagram: 'Instagram',
     },
     about: {
       heroEyebrow: 'About us',

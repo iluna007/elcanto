@@ -3,10 +3,15 @@ import MapView from '../components/MapView'
 import MapLegend from '../components/MapLegend'
 import MapHelp from '../components/MapHelp'
 import MapIntro from '../components/MapIntro'
+import { useLanguage } from '../i18n/LanguageContext'
+import { usePageMeta } from '../hooks/usePageMeta'
 import '../styles/map-sidebar.css'
 import '../styles/map-intro.css'
 
 function MapPage() {
+  const { t } = useLanguage()
+  usePageMeta({ title: t.meta.mapTitle, description: t.meta.mapDescription })
+
   const [showIntro, setShowIntro] = useState(true)
   const [mountMap, setMountMap] = useState(false)
 

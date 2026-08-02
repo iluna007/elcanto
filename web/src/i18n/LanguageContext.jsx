@@ -24,7 +24,6 @@ export function LanguageProvider({ children }) {
 
   useEffect(() => {
     document.documentElement.lang = lang
-    document.title = translations[lang].meta.title
   }, [lang])
 
   const value = useMemo(

@@ -2,7 +2,10 @@ import { useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import ResponsiveImage from '../components/ResponsiveImage'
 import { useLanguage } from '../i18n/LanguageContext'
+import { usePageMeta } from '../hooks/usePageMeta'
+import { IMAGE_SIZES } from '../utils/responsiveImage'
 import '../styles/about.css'
 
 gsap.registerPlugin(ScrollTrigger)
@@ -26,6 +29,8 @@ const galleryImages = [
 function AboutPage() {
   const pageRef = useRef(null)
   const { t } = useLanguage()
+
+  usePageMeta({ title: t.meta.aboutTitle, description: t.meta.aboutDescription })
 
   useEffect(() => {
     const root = pageRef.current
@@ -160,13 +165,13 @@ function AboutPage() {
   return (
     <div className="about-page" ref={pageRef}>
       <section className="about-hero">
-        <img
+        <ResponsiveImage
           src="/marketing/encanto-sunset.webp"
           alt={t.about.heroImageAlt}
           className="about-hero__image"
+          sizes={IMAGE_SIZES.hero}
           loading="eager"
           fetchPriority="high"
-          decoding="async"
         />
         <div className="about-hero__overlay" />
         <div className="about-hero__content">
@@ -189,29 +194,29 @@ function AboutPage() {
               <p>{section.text}</p>
             </div>
             <div className="about-section__media">
-              <img
+              <ResponsiveImage
                 src={images.image}
                 alt={section.imageAlt}
                 className="about-section__main"
+                sizes={IMAGE_SIZES.aboutSection}
                 loading="lazy"
-                decoding="async"
               />
               {images.extraImage && (
-                <img
+                <ResponsiveImage
                   src={images.extraImage}
                   alt={section.extraImageAlt}
                   className="about-section__float about-section__float--one"
+                  sizes="280px"
                   loading="lazy"
-                  decoding="async"
                 />
               )}
               {section.id === 'lifestyle' && (
-                <img
+                <ResponsiveImage
                   src="/marketing/lifestyle-horse.webp"
                   alt={section.floatAlt}
                   className="about-section__float about-section__float--two"
+                  sizes="280px"
                   loading="lazy"
-                  decoding="async"
                 />
               )}
             </div>
@@ -227,7 +232,12 @@ function AboutPage() {
         <div className="about-gallery__grid">
           {galleryImages.map((src) => (
             <div key={src} className="about-gallery__item">
-              <img src={src} alt={t.about.galleryImageAlt} loading="lazy" decoding="async" />
+              <ResponsiveImage
+                src={src}
+                alt={t.about.galleryImageAlt}
+                sizes={IMAGE_SIZES.aboutGallery}
+                loading="lazy"
+              />
             </div>
           ))}
         </div>

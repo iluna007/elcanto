@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import ResponsiveImage from './ResponsiveImage'
 import { useLanguage } from '../i18n/LanguageContext'
 import { getLocalizedProperties } from '../i18n/helpers'
+import { IMAGE_SIZES } from '../utils/responsiveImage'
 
 function ProjectHeroSlider() {
   const { lang, t } = useLanguage()
@@ -29,12 +31,13 @@ function ProjectHeroSlider() {
           className={`project-hero-slider__slide ${index === active ? 'is-active' : ''}`}
         >
           {(index === active || index === (active + 1) % properties.length) && (
-            <img
+            <ResponsiveImage
               src={item.heroImage}
               alt=""
+              className="project-hero-slider__slide-image"
+              sizes={IMAGE_SIZES.hero}
               loading={index === active ? 'eager' : 'lazy'}
               fetchPriority={index === active ? 'high' : 'low'}
-              decoding="async"
             />
           )}
         </div>

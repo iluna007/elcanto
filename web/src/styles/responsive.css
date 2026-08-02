@@ -280,9 +280,3 @@ img {
     flex-wrap: wrap;
   }
 }
-
-@media (max-width: 480px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-  }
-}

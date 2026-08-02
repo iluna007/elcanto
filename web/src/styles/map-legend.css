@@ -21,7 +21,13 @@
   font-size: 1.25rem;
   line-height: 1;
   cursor: pointer;
-  padding: 0.15rem 0.35rem;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .map-legend__header button:hover {
@@ -69,8 +75,8 @@
 
 .map-legend__fab {
   width: auto;
-  min-width: 40px;
-  height: 40px;
+  min-width: 44px;
+  height: 44px;
   padding: 0 0.5rem;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);

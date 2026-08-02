@@ -6,6 +6,7 @@ import sharp from 'sharp'
 const PUBLIC = join(fileURLToPath(new URL('../public', import.meta.url)))
 const DIRS = ['casas', 'marketing']
 const QUALITY = 82
+const WIDTHS = [640, 1200, 2400]
 
 async function walk(dir) {
   const entries = await readdir(dir, { withFileTypes: true })
@@ -14,7 +15,7 @@ async function walk(dir) {
     const full = join(dir, entry.name)
     if (entry.isDirectory()) {
       files.push(...(await walk(full)))
-    } else if (/\.(jpe?g)$/i.test(entry.name)) {
+    } else if (/\.webp$/i.test(entry.name) && !/-\d+w\.webp$/i.test(entry.name)) {
       files.push(full)
     }
   }
@@ -30,23 +31,21 @@ for (const sub of DIRS) {
   const images = await walk(dir)
 
   for (const input of images) {
-    const { dir: folder, name, ext } = parse(input)
-    const output = join(folder, `${name}.webp`)
+    const { dir: folder, name } = parse(input)
 
-    const before = (await stat(input)).size
-    await sharp(input)
-      .webp({ quality: QUALITY, effort: 4 })
-      .toFile(output)
-
-    const after = (await stat(output)).size
-    totalBefore += before
-    totalAfter += after
-    count += 1
-
-    const pct = Math.round((1 - after / before) * 100)
-    console.log(`${sub}/${name}${ext} → ${name}.webp  ${(before / 1024).toFixed(0)}KB → ${(after / 1024).toFixed(0)}KB (-${pct}%)`)
+    for (const width of WIDTHS) {
+      const output = join(folder, `${name}-${width}w.webp`)
+      await sharp(input)
+        .resize({ width, withoutEnlargement: true })
+        .webp({ quality: QUALITY, effort: 4 })
+        .toFile(output)
+      const size = (await stat(output)).size
+      totalAfter += size
+      count += 1
+      console.log(`${sub}/${name}-${width}w.webp  ${(size / 1024).toFixed(0)}KB`)
+    }
   }
 }
 
-console.log(`\nConverted ${count} images`)
-console.log(`Total: ${(totalBefore / 1024 / 1024).toFixed(2)} MB → ${(totalAfter / 1024 / 1024).toFixed(2)} MB (-${Math.round((1 - totalAfter / totalBefore) * 100)}%)`)
+console.log(`\nGenerated ${count} responsive variants`)
+console.log(`Estimated total processed: ${(totalAfter / 1024 / 1024).toFixed(2)} MB output`)

@@ -390,6 +390,59 @@ a {
   color: #b8e6c8;
 }
 
+.contact-card a:hover {
+  color: #e8f5e9;
+}
+
+.contact-card__social {
+  margin-top: 1.25rem;
+  padding-top: 1.15rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.contact-card__social-label {
+  margin-bottom: 0.65rem !important;
+  font-size: 0.78rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(232, 245, 233, 0.65) !important;
+}
+
+.contact-card__social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.contact-card__social-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  color: #e8f5e9;
+  text-decoration: none;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.contact-card__social-link svg {
+  width: 1.15rem;
+  height: 1.15rem;
+}
+
+.contact-card__social-link:hover {
+  color: #fff;
+  background: rgba(82, 183, 136, 0.25);
+  border-color: rgba(82, 183, 136, 0.55);
+  transform: translateY(-1px);
+}
+
 .contact-form label {
   display: block;
   margin-bottom: 1rem;

@@ -302,10 +302,18 @@
   position: relative;
   height: 100vh;
   min-height: 560px;
-  background-size: cover;
-  background-position: center;
   display: flex;
   align-items: flex-end;
+  overflow: hidden;
+}
+
+.project-detail-hero__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 
 .project-detail-hero__overlay {
@@ -453,6 +461,7 @@
 
 .project-floorplans__image {
   width: 100%;
+  aspect-ratio: 4 / 3;
   max-height: 600px;
   object-fit: contain;
   background: var(--encanto-bg-card);
@@ -494,6 +503,7 @@
 
 .project-gallery__main img {
   width: 100%;
+  aspect-ratio: 16 / 10;
   max-height: 560px;
   object-fit: cover;
   border: 1px solid var(--encanto-border);
