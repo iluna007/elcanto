@@ -1,12 +1,7 @@
 import { useLanguage } from '../i18n/LanguageContext'
-import { usePrefersReducedMotion } from '../hooks/useMediaQuery'
 import { usePageMeta } from '../hooks/usePageMeta'
+import ContactBackground from '../components/ContactBackground'
 import { properties } from '../data/properties'
-
-const contactVideoSrc =
-  import.meta.env.VITE_CONTACT_VIDEO_URL || '/videos/el-encanto-drone.mp4'
-
-const POSTER = '/marketing/encanto-sunset.webp'
 
 const CONTACT = {
   email: 'info@elencantodelsur.com',
@@ -40,34 +35,12 @@ function InstagramIcon() {
 
 function ContactPage() {
   const { t } = useLanguage()
-  const prefersReducedMotion = usePrefersReducedMotion()
 
   usePageMeta({ title: t.meta.contactTitle, description: t.meta.contactDescription })
 
   return (
     <div className="contact-page">
-      {prefersReducedMotion ? (
-        <img
-          className="contact-page__video"
-          src={POSTER}
-          alt=""
-          aria-hidden="true"
-          decoding="async"
-        />
-      ) : (
-        <video
-          className="contact-page__video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          poster={POSTER}
-          aria-hidden="true"
-        >
-          <source src={contactVideoSrc} type="video/mp4" />
-        </video>
-      )}
+      <ContactBackground />
 
       <div className="contact-page__overlay" />
 

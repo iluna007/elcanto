@@ -24,6 +24,8 @@ export const translations = {
       contact: 'Contacto',
       langSwitch: 'EN',
       langAria: 'Cambiar a inglés',
+      menuOpen: 'Abrir menú',
+      menuClose: 'Cerrar menú',
     },
     status: {
       disponible: 'Disponible',
@@ -200,6 +202,8 @@ export const translations = {
       contact: 'Contact',
       langSwitch: 'ES',
       langAria: 'Switch to Spanish',
+      menuOpen: 'Open menu',
+      menuClose: 'Close menu',
     },
     status: {
       disponible: 'Available',

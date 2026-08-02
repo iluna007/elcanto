@@ -18,16 +18,14 @@ body {
   padding-right: env(safe-area-inset-right);
 }
 
-img {
+img:not(.contact-page__media) {
   max-width: 100%;
   height: auto;
 }
 
-.contact-page__video {
+.contact-page__media {
   max-width: none;
-  width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 /* Dynamic viewport height */
@@ -89,7 +87,11 @@ img {
   border-radius: 6px;
   background: rgba(255, 255, 255, 0.06);
   cursor: pointer;
-  z-index: 1002;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1102;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .navbar__toggle span {
@@ -126,12 +128,18 @@ img {
     padding-top: max(0.65rem, env(safe-area-inset-top));
   }
 
+  .navbar.navbar--menu-open {
+    z-index: 1100;
+  }
+
   .navbar__toggle {
     display: flex;
   }
 
   .navbar__name {
     font-size: 0.92rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   .navbar__links {
@@ -151,12 +159,18 @@ img {
     border-left: 1px solid rgba(255, 255, 255, 0.08);
     transform: translateX(100%);
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 1001;
+    z-index: 1101;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    visibility: hidden;
+    pointer-events: none;
   }
 
   .navbar__links.is-open {
     transform: translateX(0);
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .navbar__links a,
@@ -179,10 +193,7 @@ img {
     box-shadow: none;
     border: 1px solid rgba(255, 255, 255, 0.08);
     background: rgba(0, 0, 0, 0.2);
-  }
-
-  .navbar__dropdown:not(.is-open) .navbar__dropdown-menu {
-    display: none;
+    display: block;
   }
 
   .navbar__lang {
@@ -195,23 +206,15 @@ img {
     display: block;
     position: fixed;
     inset: 0;
-    z-index: 1000;
+    z-index: 1100;
     border: none;
     background: rgba(0, 0, 0, 0.45);
     cursor: pointer;
+    touch-action: manipulation;
   }
 }
 
 /* Contact optimizations */
-.contact-page__poster {
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-}
-
 .contact-form input,
 .contact-form select,
 .contact-form textarea {
